@@ -60,17 +60,6 @@ Una **vulnerabilità** è una debolezza nel sistema che può essere sfruttata da
 - **Exploit available**: esiste già un exploit pubblico?
 - **Patch available**: esiste una patch per risolvere?
 
-**Esempio:**
-```
-QID: 105123
-Title: Microsoft Windows SMBv1 Remote Code Execution (EternalBlue)
-CVE: CVE-2017-0144
-Severity: 5 (Critical)
-CVSS: 9.8
-Impact: Consente l'esecuzione remota di codice
-Solution: Installare patch MS17-010
-```
-
 ### 3. Scan (Scansione)
 
 Una **scan** è il processo di analisi degli asset per trovare vulnerabilità.
@@ -268,20 +257,6 @@ Il **CVSS** è il sistema standardizzato per valutare la gravità delle vulnerab
    - **Availability**: servizio non disponibile
    
    Ognuno: None / Low / High
-
-**Esempio CVSS:**
-```
-CVE-2017-0144 (EternalBlue)
-CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
-Score: 9.8 (Critical)
-
-Traduzione:
-- Attacco da rete (Network)
-- Complessità bassa (facile)
-- Nessun privilegio richiesto
-- Nessuna interazione utente
-- Impatto completo su confidenzialità, integrità, disponibilità
-```
 
 ---
 
