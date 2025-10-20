@@ -1188,221 +1188,6 @@ Select-String -Path log.txt -Pattern "ERROR" -Context 2,3
 Select-String -Path log.txt -Pattern "Error" -CaseSensitive
 `````
 
-### Commenti e Documentazione
-`````powershell
-# Commenti inline
-$result = Get-Process  # ottieni lista processi
-
-# Commenti blocco
-<#
-Questo è un commento
-su più righe
-#>
-
-# Comment-based help (SEMPRE per funzioni pubbliche)
-function Get-UserReport {
-    <#
-    .SYNOPSIS
-        Genera report utenti
-    
-    .DESCRIPTION
-        Genera un report dettagliato degli utenti nel sistema
-        con statistiche di utilizzo e stato account.
-    
-    .PARAMETER UserName
-        Nome utente o pattern (supporta wildcard)
-    
-    .PARAMETER IncludeDisabled
-        Include anche utenti disabilitati
-    
-    .EXAMPLE
-        Get-UserReport -UserName "mario*"
-        Genera report per tutti gli utenti che iniziano con mario
-    
-    .EXAMPLE
-        Get-UserReport -IncludeDisabled
-        Include utenti disabilitati nel report
-    
-    .INPUTS
-        String
-    
-    .OUTPUTS
-        PSCustomObject
-    
-    .NOTES
-        Autore: Mario Rossi
-        Versione: 1.0
-        Data: 2024-01-20
-    
-    .LINK
-        https://docs.example.com/get-userreport
-    #>
-    
-    param(
-        [string]$UserName = "*",
-        [switch]$IncludeDisabled
-    )
-    
-    # Implementazione
-}
-
-# Visualizzare help
-Get-Help Get-UserReport
-Get-Help Get-UserReport -Examples
-Get-Help Get-UserReport -Full
-`````
-
-### Error Handling Best Practices
-`````powershell
-# SEMPRE usare try-catch per operazioni critiche
-try {
-    $data = Invoke-RestMethod -Uri $apiUrl
-} catch {
-    Write-Error "Errore API: $_"
-    throw
-}
-
-# Usare ErrorAction appropriato
-Get-ChildItem -Path C:\NoExist -ErrorAction SilentlyContinue
-
-# Validare input
-function Process-Data {
-    param(
-        [Parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$InputPath
-    )
-    
-    if (-not (Test-Path $InputPath)) {
-        throw "Path non valido: $InputPath"
-    }
-    
-    # Continua elaborazione
-}
-
-# Logging errori
-try {
-    # Operazione
-} catch {
-    $errorMsg = "Errore: $_"
-    Write-Error $errorMsg
-    Add-Content -Path error.log -Value "$((Get-Date)) - $errorMsg"
-    throw
-}
-`````
-
-
-
-### Performance
-`````powershell
-# ✗ LENTO: Modificare array in loop
-$array = @()
-foreach ($i in 1..10000) {
-    $array += $i  # crea nuovo array ogni volta
-}
-
-# ✓ VELOCE: Usare ArrayList o List
-$list = [System.Collections.ArrayList]@()
-foreach ($i in 1..10000) {
-    [void]$list.Add($i)
-}
-
-# ✓ VELOCE: Usare pipeline
-$array = 1..10000 | ForEach-Object { $_ }
-
-# Misurare performance
-Measure-Command {
-    # Codice da misurare
-}
-
-# ✗ LENTO: Multiple chiamate a Get-
-foreach ($user in $users) {
-    $groups = Get-ADPrincipalGroupMembership $user
-}
-
-# ✓ VELOCE: Query unica
-$allGroups = Get-ADGroup -Filter *
-foreach ($user in $users) {
-    $userGroups = $allGroups | Where-Object {$_.Members -contains $user}
-}
-
-# Usare Where-Object vs .Where()
-# .Where() è più veloce (PowerShell 4+)
-$filtered = $array.Where({$_ -gt 5})
-`````
-
-### Sicurezza
-`````powershell
-# NON hardcodare credenziali
-# ✗ MALE
-$password = "Secret123!"
-
-# ✓ BENE: Usare Get-Credential
-$cred = Get-Credential
-
-# ✓ BENE: Variabili ambiente
-$apiKey = $env:API_KEY
-
-# ✓ BENE: Secure String
-$securePassword = Read-Host "Password" -AsSecureString
-$cred = New-Object System.Management.Automation.PSCredential($username, $securePassword)
-
-# Convertire da/a secure string
-$secureString = ConvertTo-SecureString "Password123" -AsPlainText -Force
-$plainText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
-    [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
-)
-
-# Salvare credenziali (encrypted per utente corrente)
-$cred | Export-Clixml credentials.xml
-$cred = Import-Clixml credentials.xml
-
-# Validare input per evitare injection
-function Invoke-SafeQuery {
-    param(
-        [ValidatePattern('^[a-zA-Z0-9_]+$literal = @'
-Stringa letterale
-$variabili non espanse
-'@
-
-# Lunghezza
-$str.Length
-
-# Maiuscole/Minuscole
-$str.ToUpper()
-$str.ToLower()
-
-# Trim (rimuovi spazi)
-"  testo  ".Trim()
-"  testo  ".TrimStart()
-"  testo  ".TrimEnd()
-
-# Substring
-$str.Substring(0, 5)        # primi 5 caratteri
-$str.Substring(6)           # dal carattere 6 alla fine
-
-# Replace
-$str.Replace("World", "PowerShell")
-$str -replace "World", "PowerShell"
-
-# Split
-"a,b,c".Split(",")
-"uno due tre" -split " "
-
-# Join
-$array -join ", "
--join @("a", "b", "c")      # "abc"
-
-# Contiene
-$str.Contains("World")
-$str -like "*World*"
-$str -match "W\w+"          # regex
-
-# Inizia/Finisce
-$str.StartsWith("Hello")
-$str.EndsWith("World")
-`````
-
 ---
 
 ## Array e HashTable
@@ -2513,6 +2298,221 @@ $configPath = "C:\config"
 `````powershell
 $MAX_RETRIES = 3
 $API_TIMEOUT = 30
+`````
+
+### Commenti e Documentazione
+`````powershell
+# Commenti inline
+$result = Get-Process  # ottieni lista processi
+
+# Commenti blocco
+<#
+Questo è un commento
+su più righe
+#>
+
+# Comment-based help (SEMPRE per funzioni pubbliche)
+function Get-UserReport {
+    <#
+    .SYNOPSIS
+        Genera report utenti
+    
+    .DESCRIPTION
+        Genera un report dettagliato degli utenti nel sistema
+        con statistiche di utilizzo e stato account.
+    
+    .PARAMETER UserName
+        Nome utente o pattern (supporta wildcard)
+    
+    .PARAMETER IncludeDisabled
+        Include anche utenti disabilitati
+    
+    .EXAMPLE
+        Get-UserReport -UserName "mario*"
+        Genera report per tutti gli utenti che iniziano con mario
+    
+    .EXAMPLE
+        Get-UserReport -IncludeDisabled
+        Include utenti disabilitati nel report
+    
+    .INPUTS
+        String
+    
+    .OUTPUTS
+        PSCustomObject
+    
+    .NOTES
+        Autore: Mario Rossi
+        Versione: 1.0
+        Data: 2024-01-20
+    
+    .LINK
+        https://docs.example.com/get-userreport
+    #>
+    
+    param(
+        [string]$UserName = "*",
+        [switch]$IncludeDisabled
+    )
+    
+    # Implementazione
+}
+
+# Visualizzare help
+Get-Help Get-UserReport
+Get-Help Get-UserReport -Examples
+Get-Help Get-UserReport -Full
+`````
+
+### Error Handling Best Practices
+`````powershell
+# SEMPRE usare try-catch per operazioni critiche
+try {
+    $data = Invoke-RestMethod -Uri $apiUrl
+} catch {
+    Write-Error "Errore API: $_"
+    throw
+}
+
+# Usare ErrorAction appropriato
+Get-ChildItem -Path C:\NoExist -ErrorAction SilentlyContinue
+
+# Validare input
+function Process-Data {
+    param(
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$InputPath
+    )
+    
+    if (-not (Test-Path $InputPath)) {
+        throw "Path non valido: $InputPath"
+    }
+    
+    # Continua elaborazione
+}
+
+# Logging errori
+try {
+    # Operazione
+} catch {
+    $errorMsg = "Errore: $_"
+    Write-Error $errorMsg
+    Add-Content -Path error.log -Value "$((Get-Date)) - $errorMsg"
+    throw
+}
+`````
+
+
+
+### Performance
+`````powershell
+# ✗ LENTO: Modificare array in loop
+$array = @()
+foreach ($i in 1..10000) {
+    $array += $i  # crea nuovo array ogni volta
+}
+
+# ✓ VELOCE: Usare ArrayList o List
+$list = [System.Collections.ArrayList]@()
+foreach ($i in 1..10000) {
+    [void]$list.Add($i)
+}
+
+# ✓ VELOCE: Usare pipeline
+$array = 1..10000 | ForEach-Object { $_ }
+
+# Misurare performance
+Measure-Command {
+    # Codice da misurare
+}
+
+# ✗ LENTO: Multiple chiamate a Get-
+foreach ($user in $users) {
+    $groups = Get-ADPrincipalGroupMembership $user
+}
+
+# ✓ VELOCE: Query unica
+$allGroups = Get-ADGroup -Filter *
+foreach ($user in $users) {
+    $userGroups = $allGroups | Where-Object {$_.Members -contains $user}
+}
+
+# Usare Where-Object vs .Where()
+# .Where() è più veloce (PowerShell 4+)
+$filtered = $array.Where({$_ -gt 5})
+`````
+
+### Sicurezza
+`````powershell
+# NON hardcodare credenziali
+# ✗ MALE
+$password = "Secret123!"
+
+# ✓ BENE: Usare Get-Credential
+$cred = Get-Credential
+
+# ✓ BENE: Variabili ambiente
+$apiKey = $env:API_KEY
+
+# ✓ BENE: Secure String
+$securePassword = Read-Host "Password" -AsSecureString
+$cred = New-Object System.Management.Automation.PSCredential($username, $securePassword)
+
+# Convertire da/a secure string
+$secureString = ConvertTo-SecureString "Password123" -AsPlainText -Force
+$plainText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
+    [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
+)
+
+# Salvare credenziali (encrypted per utente corrente)
+$cred | Export-Clixml credentials.xml
+$cred = Import-Clixml credentials.xml
+
+# Validare input per evitare injection
+function Invoke-SafeQuery {
+    param(
+        [ValidatePattern('^[a-zA-Z0-9_]+$literal = @'
+Stringa letterale
+$variabili non espanse
+'@
+
+# Lunghezza
+$str.Length
+
+# Maiuscole/Minuscole
+$str.ToUpper()
+$str.ToLower()
+
+# Trim (rimuovi spazi)
+"  testo  ".Trim()
+"  testo  ".TrimStart()
+"  testo  ".TrimEnd()
+
+# Substring
+$str.Substring(0, 5)        # primi 5 caratteri
+$str.Substring(6)           # dal carattere 6 alla fine
+
+# Replace
+$str.Replace("World", "PowerShell")
+$str -replace "World", "PowerShell"
+
+# Split
+"a,b,c".Split(",")
+"uno due tre" -split " "
+
+# Join
+$array -join ", "
+-join @("a", "b", "c")      # "abc"
+
+# Contiene
+$str.Contains("World")
+$str -like "*World*"
+$str -match "W\w+"          # regex
+
+# Inizia/Finisce
+$str.StartsWith("Hello")
+$str.EndsWith("World")
 `````
 
 ---
