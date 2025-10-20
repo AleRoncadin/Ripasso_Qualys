@@ -1158,6 +1158,43 @@ $date = Get-Date
 # Allineamento
 "{0,10}" -f "test"         # allinea destra (10 caratteri)
 "{0,-10}" -f "test"        # allinea sinistra
+
+# Lunghezza
+$str.Length
+
+# Maiuscole/Minuscole
+$str.ToUpper()
+$str.ToLower()
+
+# Trim (rimuovi spazi)
+"  testo  ".Trim()
+"  testo  ".TrimStart()
+"  testo  ".TrimEnd()
+
+# Substring
+$str.Substring(0, 5)        # primi 5 caratteri
+$str.Substring(6)           # dal carattere 6 alla fine
+
+# Replace
+$str.Replace("World", "PowerShell")
+$str -replace "World", "PowerShell"
+
+# Split
+"a,b,c".Split(",")
+"uno due tre" -split " "
+
+# Join
+$array -join ", "
+-join @("a", "b", "c")      # "abc"
+
+# Contiene
+$str.Contains("World")
+$str -like "*World*"
+$str -match "W\w+"          # regex
+
+# Inizia/Finisce
+$str.StartsWith("Hello")
+$str.EndsWith("World")
 `````
 
 ### Regex (Espressioni Regolari)
@@ -2468,51 +2505,6 @@ $plainText = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
 # Salvare credenziali (encrypted per utente corrente)
 $cred | Export-Clixml credentials.xml
 $cred = Import-Clixml credentials.xml
-
-# Validare input per evitare injection
-function Invoke-SafeQuery {
-    param(
-        [ValidatePattern('^[a-zA-Z0-9_]+$literal = @'
-Stringa letterale
-$variabili non espanse
-'@
-
-# Lunghezza
-$str.Length
-
-# Maiuscole/Minuscole
-$str.ToUpper()
-$str.ToLower()
-
-# Trim (rimuovi spazi)
-"  testo  ".Trim()
-"  testo  ".TrimStart()
-"  testo  ".TrimEnd()
-
-# Substring
-$str.Substring(0, 5)        # primi 5 caratteri
-$str.Substring(6)           # dal carattere 6 alla fine
-
-# Replace
-$str.Replace("World", "PowerShell")
-$str -replace "World", "PowerShell"
-
-# Split
-"a,b,c".Split(",")
-"uno due tre" -split " "
-
-# Join
-$array -join ", "
--join @("a", "b", "c")      # "abc"
-
-# Contiene
-$str.Contains("World")
-$str -like "*World*"
-$str -match "W\w+"          # regex
-
-# Inizia/Finisce
-$str.StartsWith("Hello")
-$str.EndsWith("World")
 `````
 
 ---
