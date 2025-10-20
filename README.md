@@ -1,5 +1,17 @@
+# FONDAMENTI QUALYS
+
+## Cos'è Qualys?
+Qualys è una piattaforma cloud-based leader nel settore della sicurezza informatica e compliance. Fondata nel 1999, offre soluzioni per identificare, valutare e proteggere le risorse IT dalle vulnerabilità e dalle minacce informatiche.
+Caratteristiche principali:
+
+Cloud-native: tutto funziona dal cloud, niente da installare on-premise (tranne gli scanner)
+Scalabile: può gestire da poche decine a milioni di asset
+Multi-modulo: non solo vulnerability management, ma anche compliance, web app scanning, container security, ecc.
+
+## Come Funziona Qualys?
+
 [Asset da scansionare] ←→ [Qualys Scanner] ←→ [Qualys Cloud Platform] ←→ [Utente/API]
-```
+
 
 1. **Scanner Qualys**: applicazione leggera installata nella tua rete che esegue le scansioni
 2. **Cloud Platform**: cervello centrale dove vengono analizzati i dati
@@ -343,7 +355,7 @@ Il **patch management** è il processo di gestione degli aggiornamenti software.
 Non tutte le vulnerabilità sono uguali:
 
 **Formula di rischio:**
-```
+
 Risk = Likelihood × Impact
 
 Dove:
