@@ -2489,4 +2489,30 @@ Enter-PSSession -ComputerName Server01 -Credential $cred
 `````powershell
 # Verb-Noun per funzioni (Approved Verbs)
 function Get-UserData { }       # ✓ Corretto
-function Fetch-UserData { }     # ✗ Verb non approvato# 
+function Fetch-UserData { }     # ✗ Verb non approvato#
+`````
+
+### Lista verbi approvati
+`````powershell
+Get-Verb
+`````
+
+### PascalCase per funzioni e parametri
+`````powershell
+function Get-ServerStatus { }
+param([string]$ServerName)
+`````
+
+### camelCase per variabili
+`````powershell
+$userName = "mario"
+$configPath = "C:\config"
+`````
+
+### UPPERCASE per costanti
+`````powershell
+$MAX_RETRIES = 3
+$API_TIMEOUT = 30
+`````
+
+---
